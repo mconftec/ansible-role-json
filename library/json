@@ -51,6 +51,7 @@ def main():
             delete=dict(required=False, default={}, type='dict'),
             insert=dict(required=False, default={}, type='dict'),
 
+            insert_if_missing=dict(required=False, default=False, type='bool'),
             indent=dict(required=False, default=2, type='int'),
             force=dict(required=False, default=False, type='bool')
         ),
@@ -74,9 +75,14 @@ def main():
                                  p['replace'].get('json_path'))
 
         if old_val != p['replace'].get('with_value'):
-            dpath.util.set(json_obj,
-                           p['replace'].get('json_path'),
-                           p['replace'].get('with_value'))
+            if old_val:
+                dpath.util.set(json_obj,
+                               p['replace'].get('json_path'),
+                               p['replace'].get('with_value'))
+            elif insert_if_missing:
+                dpath.util.new(json_obj,
+                               p['replace'].get('json_path'),
+                               p['replace'].get('with_value'))
             changed = True
 
     if p['delete']:
