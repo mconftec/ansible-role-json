@@ -79,7 +79,7 @@ def main():
                 dpath.util.set(json_obj,
                                p['replace'].get('json_path'),
                                p['replace'].get('with_value'))
-            elif insert_if_missing:
+            elif p['insert_if_missing']:
                 dpath.util.new(json_obj,
                                p['replace'].get('json_path'),
                                p['replace'].get('with_value'))
